@@ -1,11 +1,12 @@
-package com.ty.dao;
-
 import java.util.List;
 
 import com.ty.entity.Student;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 public class StudentDAO {
 
@@ -13,22 +14,32 @@ public class StudentDAO {
 
 	public void saveStudent(Student student) {
 
-		//fill the code
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+
+		et.begin();
+		em.persist(student);
+		et.commit();
 
 	}
 
 	public Student getStudentById(int id) {
 
-		//fill the code
+		EntityManager em = emf.createEntityManager();
 
+		Student student = em.find(Student.class, id);
 
-		return null;
+		return student;
 	}
 
 	public List<Student> getAllStudents() {
 
-		//fill the code
+		EntityManager em = emf.createEntityManager();
 
-		return null;
+		Query query = em.createQuery("SELECT s FROM Student s");
+
+		List<Student> students = query.getResultList();
+
+		return students;
 	}
 }
